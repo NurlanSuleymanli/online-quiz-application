@@ -7,6 +7,7 @@ import com.nurlansuleymanli.onlinequiz_application.entity.QuestionEntity;
 import com.nurlansuleymanli.onlinequiz_application.entity.QuizEntity;
 import com.nurlansuleymanli.onlinequiz_application.entity.QuizResultEntity;
 import com.nurlansuleymanli.onlinequiz_application.entity.UserEntity;
+import com.nurlansuleymanli.onlinequiz_application.exception.ResourceNotFoundException;
 import com.nurlansuleymanli.onlinequiz_application.mapper.QuizResultMapper;
 import com.nurlansuleymanli.onlinequiz_application.repository.QuizRepository;
 import com.nurlansuleymanli.onlinequiz_application.repository.QuizResultRepository;
@@ -31,10 +32,10 @@ public class QuizResultService {
     @Transactional
     public QuizResultResponseDto submitQuiz(Long quizId, QuizSubmitRequest request) {
         UserEntity user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + request.getUserId()));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + request.getUserId()));
 
         QuizEntity quiz = quizRepository.findById(quizId)
-                .orElseThrow(() -> new RuntimeException("Quiz not found with id: " + quizId));
+                .orElseThrow(() -> new ResourceNotFoundException("Quiz not found with id: " + quizId));
 
         int totalQuestions = quiz.getQuestions() != null ? quiz.getQuestions().size() : 0;
         int correctAnswers = 0;
@@ -76,7 +77,7 @@ public class QuizResultService {
     @Transactional(readOnly = true)
     public List<QuizResultResponseDto> getUserResults(Long userId) {
         if (!userRepository.existsById(userId)) {
-            throw new RuntimeException("User not found with id: " + userId);
+            throw new ResourceNotFoundException("User not found with id: " + userId);
         }
         return quizResultRepository.findByUserId(userId)
                 .stream()
@@ -87,7 +88,7 @@ public class QuizResultService {
     @Transactional(readOnly = true)
     public List<QuizResultResponseDto> getQuizResults(Long quizId) {
         if (!quizRepository.existsById(quizId)) {
-            throw new RuntimeException("Quiz not found with id: " + quizId);
+            throw new ResourceNotFoundException("Quiz not found with id: " + quizId);
         }
         return quizResultRepository.findByQuizId(quizId)
                 .stream()

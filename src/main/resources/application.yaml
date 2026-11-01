@@ -3,7 +3,7 @@ spring:
     name: Online-Quiz_Application
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/quiz_db
+    url: jdbc:postgresql://localhost:5433/quiz_db
     username: postgres
     password: postgres
 
