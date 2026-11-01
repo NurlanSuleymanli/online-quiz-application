@@ -1,4 +1,4 @@
-package entity;
+package com.nurlansuleymanli.onlinequiz_application.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,10 +12,10 @@ import java.util.List;
 @Entity
 @Table(name = "quiz")
 @Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class QuizEntity {
 
     @Id
@@ -29,11 +29,10 @@ public class QuizEntity {
     String quizDescription;
 
     @OneToMany(mappedBy = "quiz", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Builder.Default
     List<QuestionEntity> questions = new ArrayList<>();
 
     @Column(name = "created_at", updatable = false)
     @CreationTimestamp
     LocalDateTime createdAt;
-
-
 }

@@ -1,4 +1,4 @@
-package entity;
+package com.nurlansuleymanli.onlinequiz_application.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,13 +9,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "questions")
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class QuestionEntity {
 
     @Id
@@ -26,15 +26,15 @@ public class QuestionEntity {
     @Column(name = "question_text", nullable = false)
     String questionText;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "quiz_id")
     QuizEntity quiz;
 
     @OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    List<OptionEntity> options =new ArrayList<>();
+    @Builder.Default
+    List<OptionEntity> options = new ArrayList<>();
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
     @CreationTimestamp
     LocalDateTime createdAt;
-
 }

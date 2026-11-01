@@ -1,4 +1,4 @@
-package entity;
+package com.nurlansuleymanli.onlinequiz_application.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -7,32 +7,26 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "users")
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Entity
-@Table(name = "options")
-public class OptionEntity {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(name = "option_text")
-    String optionText;
+    @Column(name = "email", nullable = false, unique = true)
+    String email;
 
-    @Column(name = "is_correct")
-    boolean isCorrect;
+    @Column(name = "full_name", nullable = false)
+    String fullName;
 
-    @ManyToOne
-    @JoinColumn(name = "question_id")
-    QuestionEntity question;
-
-
+    @Column(name = "created_at", updatable = false)
     @CreationTimestamp
-    @Column(name = "created_at")
     LocalDateTime createdAt;
-
 }
