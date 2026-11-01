@@ -5,8 +5,7 @@ spring:
     name: Online-Quiz_Application
 
   datasource:
-    hikari:
-      jdbc-url: jdbc:postgresql://localhost:5432/quiz_db
+      url: jdbc:postgresql://localhost:5432/quiz_db
       password: postgres
       username: postgres
 
